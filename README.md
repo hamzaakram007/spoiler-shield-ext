@@ -1,8 +1,11 @@
 # Spoiler Shield
 
-Chrome extension (Manifest V3) that blurs spoiler titles and thumbnails matching a configurable keyword list on **YouTube**, **Reddit**, and **X**. Includes a popup on/off toggle, options page, and a minimal marketing landing page under `/web`.
+Chrome extension (Manifest V3) that blurs spoiler titles and thumbnails matching a configurable keyword list on **YouTube**, **Reddit**, and **X**. Includes a popup on/off toggle, options page, and a marketing landing page under `/web`.
 
 Built by **Hamza Akram**. Independent fan utility — not affiliated with any game publisher.
+
+**Landing:** https://spoiler-shield-ext.vercel.app  
+**Repo:** https://github.com/hamzaakram007/spoiler-shield-ext
 
 ## Repo layout
 
@@ -13,12 +16,12 @@ extension/     ← load this folder in Chrome (unpacked)
   content.js / content.css
   popup.* / options.*
   icons/
-web/           ← simple marketing landing page
+web/           ← marketing landing + install guide
 ```
 
 ## Install (unpacked)
 
-1. Clone this repo:
+1. Download the [ZIP](https://github.com/hamzaakram007/spoiler-shield-ext/archive/refs/heads/main.zip) or clone:
    ```bash
    git clone https://github.com/hamzaakram007/spoiler-shield-ext.git
    cd spoiler-shield-ext
@@ -26,29 +29,34 @@ web/           ← simple marketing landing page
 2. Open Chrome → `chrome://extensions`
 3. Enable **Developer mode** (top right)
 4. Click **Load unpacked**
-5. Select the `extension/` folder inside this repo
+5. Select the `extension/` folder inside this repo (not the repo root, not `web/`)
 6. Pin **Spoiler Shield** from the extensions menu
+
+After pulling updates, hit the refresh icon on the extension card so the new content script loads.
 
 ## Use
 
-- **Popup:** toggle protection on/off; open keyword editor
-- **Options:** add / remove keywords; reset to defaults
+- **Popup:** toggle protection on/off; open settings
+- **Settings:** enable/disable, add / bulk-paste / filter / sort / remove keywords; reset defaults (with confirm)
 - On matching feed items, titles + nearby thumbnails blur until you click **Reveal spoiler**
+- Content script re-scans SPA navigations and late-loaded cards
 
 Default keywords are generic story-spoiler phrases. Customize them for whatever you are avoiding.
 
 ## Landing page
 
-Open `web/index.html` locally in a browser, or serve the folder:
+Live: https://spoiler-shield-ext.vercel.app (`#install` has the step-by-step guide)
+
+Locally:
 
 ```bash
 python3 -m http.server 8080 --directory web
 # → http://127.0.0.1:8080
 ```
 
-## MVP scope
+## Scope
 
-Working UI + core blur flow + placeholder/default keywords + README. Not Chrome Web Store–published yet (sideload first).
+Working UI + hardened blur flow + options UX + install guide + icons. Not Chrome Web Store–published yet (sideload first).
 
 ## License
 

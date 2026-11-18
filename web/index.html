@@ -8,6 +8,8 @@
       name="description"
       content="Chrome extension that blurs spoiler titles and thumbnails on YouTube, Reddit, and X. Built by Hamza Akram."
     />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon-128.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,7 +22,10 @@
     <div class="atmosphere" aria-hidden="true"></div>
     <header class="top">
       <span class="logo">Spoiler Shield</span>
-      <a class="ghost-link" href="https://github.com/hamzaakram007/spoiler-shield-ext">GitHub</a>
+      <nav class="top-nav">
+        <a class="ghost-link" href="#install">Install</a>
+        <a class="ghost-link" href="https://github.com/hamzaakram007/spoiler-shield-ext">GitHub</a>
+      </nav>
     </header>
 
     <main>
@@ -33,7 +38,7 @@
           Reveal.
         </p>
         <div class="cta-row">
-          <a class="cta" href="https://github.com/hamzaakram007/spoiler-shield-ext#install-unpacked">Install unpacked</a>
+          <a class="cta" href="#install">Install guide</a>
           <a class="cta secondary" href="https://github.com/hamzaakram007/spoiler-shield-ext">View source</a>
         </div>
       </section>
@@ -49,12 +54,71 @@
         </div>
       </section>
 
+      <section class="install" id="install" aria-labelledby="install-heading">
+        <h2 id="install-heading">Install (unpacked)</h2>
+        <p class="install-lede">
+          Not on the Chrome Web Store yet. Load the <code>extension/</code> folder
+          as an unpacked extension in under a minute.
+        </p>
+
+        <ol class="steps">
+          <li>
+            <strong>Get the code</strong>
+            <p>
+              Download the latest ZIP, or clone the repo.
+            </p>
+            <div class="step-actions">
+              <a
+                class="cta compact"
+                href="https://github.com/hamzaakram007/spoiler-shield-ext/archive/refs/heads/main.zip"
+                >Download ZIP</a
+              >
+              <a
+                class="cta secondary compact"
+                href="https://github.com/hamzaakram007/spoiler-shield-ext"
+                >Open repo</a
+              >
+            </div>
+            <pre><code>git clone https://github.com/hamzaakram007/spoiler-shield-ext.git
+cd spoiler-shield-ext</code></pre>
+          </li>
+          <li>
+            <strong>Open Chrome extensions</strong>
+            <p>
+              Go to <code>chrome://extensions</code> and turn on
+              <em>Developer mode</em> (top right).
+            </p>
+          </li>
+          <li>
+            <strong>Load unpacked</strong>
+            <p>
+              Click <em>Load unpacked</em>, then select the
+              <code>extension/</code> folder inside this repo — not the repo root
+              and not <code>web/</code>.
+            </p>
+          </li>
+          <li>
+            <strong>Pin and configure</strong>
+            <p>
+              Pin Spoiler Shield from the puzzle menu. Use the popup toggle, then
+              open Settings to add the spoilers you want blurred.
+            </p>
+          </li>
+        </ol>
+
+        <aside class="tip">
+          <strong>Tip:</strong> After pulling updates, open
+          <code>chrome://extensions</code> and hit the refresh icon on Spoiler
+          Shield so the new content script loads.
+        </aside>
+      </section>
+
       <section class="points">
-        <h2>High-level MVP</h2>
+        <h2>What it does</h2>
         <p>Configurable keywords, popup toggle, options page, three major feeds.</p>
         <ul>
-          <li>Blurs matching titles + nearby thumbnails</li>
-          <li>Per-item reveal without disabling protection</li>
+          <li>Blurs matching titles + nearby thumbnails with a reveal button</li>
+          <li>Re-scans SPA feeds as you scroll or navigate</li>
           <li>Syncs keywords via <code>chrome.storage.sync</code></li>
         </ul>
       </section>

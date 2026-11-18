@@ -63,6 +63,12 @@ body {
   letter-spacing: 0.02em;
 }
 
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .ghost-link {
   color: var(--muted);
   text-decoration: none;
@@ -161,6 +167,11 @@ main {
   border: 1px solid var(--line);
 }
 
+.cta.compact {
+  padding: 0.55rem 0.95rem;
+  font-size: 0.9rem;
+}
+
 .preview {
   margin-top: -2rem;
   margin-bottom: 3rem;
@@ -218,15 +229,113 @@ main {
   font: 600 0.8rem var(--font-body);
 }
 
-.points {
-  max-width: 40rem;
-  animation: rise 1.15s 0.25s ease both;
+.install {
+  max-width: 42rem;
+  margin: 0 0 3.5rem;
+  padding: 1.5rem 0 0;
+  scroll-margin-top: 1.5rem;
+  animation: rise 1.12s 0.2s ease both;
 }
 
+.install h2,
 .points h2 {
   margin: 0;
   font-family: var(--font-display);
   font-size: 1.6rem;
+}
+
+.install-lede {
+  margin: 0.55rem 0 1.25rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 1.15rem;
+}
+
+.steps > li {
+  position: relative;
+  padding: 1rem 1rem 1rem 3.35rem;
+  border: 1px solid rgba(120, 220, 210, 0.16);
+  border-radius: 16px;
+  background: rgba(6, 24, 36, 0.55);
+  counter-increment: step;
+}
+
+.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 229, 200, 0.16);
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.steps strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-display);
+}
+
+.steps p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.steps code,
+.install-lede code,
+.tip code,
+.points code {
+  font-size: 0.9em;
+  color: var(--teal);
+}
+
+.step-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.85rem 0 0.75rem;
+}
+
+.steps pre {
+  margin: 0.75rem 0 0;
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(120, 220, 210, 0.14);
+  background: rgba(2, 12, 18, 0.8);
+  color: #c8fff4;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.tip {
+  margin-top: 1.15rem;
+  padding: 0.9rem 1rem;
+  border-left: 3px solid var(--teal);
+  color: var(--muted);
+  line-height: 1.5;
+  background: rgba(0, 229, 200, 0.06);
+}
+
+.points {
+  max-width: 40rem;
+  animation: rise 1.15s 0.25s ease both;
 }
 
 .points > p {
@@ -238,11 +347,6 @@ main {
   margin: 0;
   padding-left: 1.15rem;
   line-height: 1.7;
-}
-
-.points code {
-  font-size: 0.9em;
-  color: var(--teal);
 }
 
 footer {

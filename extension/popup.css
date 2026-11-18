@@ -38,11 +38,10 @@ header {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background:
-    linear-gradient(160deg, rgba(0, 229, 200, 0.35), rgba(12, 40, 60, 0.9)),
-    var(--panel);
   border: 1px solid var(--line);
-  box-shadow: inset 0 0 0 1px rgba(0, 229, 200, 0.12);
+  background: #06121c;
+  object-fit: cover;
+  display: block;
 }
 
 h1 {
@@ -135,4 +134,11 @@ input[type="checkbox"]:checked::after {
 
 #open-options:hover {
   text-decoration: underline;
+}
+
+.sites {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.01em;
 }

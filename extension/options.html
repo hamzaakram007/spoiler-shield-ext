@@ -3,21 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Spoiler Shield — Keywords</title>
+    <title>Spoiler Shield — Settings</title>
     <link rel="stylesheet" href="options.css" />
   </head>
   <body>
     <div class="page">
       <header>
         <p class="eyebrow">Spoiler Shield</p>
-        <h1>Keyword list</h1>
+        <h1>Settings</h1>
         <p class="lede">
-          Titles and nearby thumbnails matching these words get blurred on
-          YouTube, Reddit, and X. Click reveal when you are ready.
+          Turn protection on, manage keywords, and keep spoilers blurred on
+          YouTube, Reddit, and X until you reveal them.
         </p>
       </header>
 
-      <section class="card">
+      <section class="card" aria-labelledby="protection-heading">
+        <div class="card-head">
+          <div>
+            <h2 id="protection-heading">Protection</h2>
+            <p class="hint">Applies immediately on open feed tabs.</p>
+          </div>
+          <label class="switch-row" for="enabled">
+            <span id="enabled-label">On</span>
+            <input id="enabled" type="checkbox" role="switch" />
+          </label>
+        </div>
+        <ul class="sites">
+          <li>YouTube</li>
+          <li>Reddit</li>
+          <li>X</li>
+        </ul>
+      </section>
+
+      <section class="card" aria-labelledby="keywords-heading">
+        <div class="card-head">
+          <div>
+            <h2 id="keywords-heading">Keywords</h2>
+            <p class="hint">
+              <span id="keyword-count">0</span> active · matching titles and nearby thumbnails blur
+            </p>
+          </div>
+        </div>
+
         <label class="field" for="new-keyword">
           <span>Add keyword or phrase</span>
           <div class="row">
@@ -26,18 +53,44 @@
               type="text"
               placeholder="e.g. final mission"
               maxlength="80"
+              autocomplete="off"
             />
             <button id="add-btn" type="button">Add</button>
           </div>
         </label>
 
+        <label class="field tight" for="bulk-keywords">
+          <span>Bulk paste <em>(comma or new line)</em></span>
+          <textarea
+            id="bulk-keywords"
+            rows="3"
+            placeholder="ending, boss fight&#10;secret ending"
+          ></textarea>
+          <div class="row end">
+            <button id="bulk-btn" type="button" class="ghost">Add all</button>
+          </div>
+        </label>
+
+        <label class="field tight" for="filter-keywords">
+          <span>Filter list</span>
+          <input
+            id="filter-keywords"
+            type="search"
+            placeholder="Search keywords…"
+            autocomplete="off"
+          />
+        </label>
+
         <ul id="keyword-list" class="list" aria-live="polite"></ul>
 
         <div class="footer-actions">
-          <button id="reset-btn" type="button" class="ghost">
-            Reset defaults
-          </button>
-          <p id="save-status" class="status" hidden>Saved</p>
+          <div class="action-group">
+            <button id="sort-btn" type="button" class="ghost">Sort A–Z</button>
+            <button id="reset-btn" type="button" class="ghost danger">
+              Reset defaults
+            </button>
+          </div>
+          <p id="save-status" class="status" role="status" hidden>Saved</p>
         </div>
       </section>
 

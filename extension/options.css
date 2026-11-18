@@ -24,7 +24,7 @@ body {
 }
 
 .page {
-  width: min(680px, calc(100% - 2rem));
+  width: min(720px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 2.5rem 0 3rem;
 }
@@ -44,15 +44,20 @@ h1 {
   letter-spacing: -0.02em;
 }
 
+h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
 .lede {
   margin: 0.7rem 0 0;
   color: var(--muted);
-  max-width: 42ch;
+  max-width: 46ch;
   line-height: 1.5;
 }
 
 .card {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   padding: 1.25rem;
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -60,11 +65,104 @@ h1 {
   backdrop-filter: blur(8px);
 }
 
-.field span {
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.hint {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.sites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sites li {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 220, 210, 0.2);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.switch-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.switch-row span {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--teal);
+  min-width: 1.75rem;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: #6b8790;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.18s ease;
+  cursor: pointer;
+}
+
+input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ecfffb;
+  transition: transform 0.18s ease;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--teal);
+}
+
+input[type="checkbox"]:checked::after {
+  transform: translateX(18px);
+}
+
+.field {
+  display: block;
+  margin-top: 0.85rem;
+}
+
+.field.tight {
+  margin-top: 0.9rem;
+}
+
+.field > span {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   color: var(--muted);
+}
+
+.field em {
+  font-style: normal;
+  opacity: 0.75;
 }
 
 .row {
@@ -72,8 +170,15 @@ h1 {
   gap: 0.6rem;
 }
 
-input[type="text"] {
-  flex: 1;
+.row.end {
+  justify-content: flex-end;
+  margin-top: 0.55rem;
+}
+
+input[type="text"],
+input[type="search"],
+textarea {
+  width: 100%;
   min-width: 0;
   padding: 0.75rem 0.9rem;
   border-radius: 12px;
@@ -81,9 +186,15 @@ input[type="text"] {
   background: rgba(3, 14, 22, 0.75);
   color: var(--foam);
   font: inherit;
+  resize: vertical;
 }
 
-input[type="text"]:focus {
+.row input[type="text"] {
+  flex: 1;
+}
+
+input:focus,
+textarea:focus {
   outline: 2px solid rgba(0, 229, 200, 0.45);
   outline-offset: 1px;
 }
@@ -112,12 +223,19 @@ button.ghost:hover {
   color: var(--foam);
 }
 
+button.ghost.danger:hover {
+  color: var(--danger);
+  border-color: rgba(255, 122, 110, 0.45);
+}
+
 .list {
   list-style: none;
   margin: 1rem 0 0;
   padding: 0;
   display: grid;
   gap: 0.5rem;
+  max-height: 22rem;
+  overflow: auto;
 }
 
 .list li {
@@ -134,6 +252,7 @@ button.ghost:hover {
 .list code {
   font-family: "Consolas", "Courier New", monospace;
   font-size: 0.92rem;
+  overflow-wrap: anywhere;
 }
 
 .remove {
@@ -142,19 +261,32 @@ button.ghost:hover {
   border: 1px solid rgba(255, 122, 110, 0.35);
   padding: 0.4rem 0.7rem;
   font-size: 0.8rem;
+  flex-shrink: 0;
 }
 
 .footer-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
   margin-top: 1rem;
+}
+
+.action-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .status {
   margin: 0;
   color: var(--teal);
   font-size: 0.85rem;
+}
+
+.status.error {
+  color: var(--danger);
 }
 
 .note {
@@ -168,4 +300,12 @@ button.ghost:hover {
   color: var(--muted);
   font-size: 0.9rem;
   padding: 0.5rem 0;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+@media (max-width: 560px) {
+  .card-head {
+    flex-direction: column;
+  }
 }
