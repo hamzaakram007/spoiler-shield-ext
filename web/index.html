@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spoiler Shield — stay ahead of spoilers</title>
+    <meta
+      name="description"
+      content="Chrome extension that blurs spoiler titles and thumbnails on YouTube, Reddit, and X. Built by Hamza Akram."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+    <header class="top">
+      <span class="logo">Spoiler Shield</span>
+      <a class="ghost-link" href="https://github.com/hamzaakram007/spoiler-shield-ext">GitHub</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="brand">Spoiler Shield</p>
+        <h1>Blur the feed. Finish the story first.</h1>
+        <p class="support">
+          A Manifest V3 Chrome extension that soft-blurs titles and thumbnails
+          matching your keyword list on YouTube, Reddit, and X — until you tap
+          Reveal.
+        </p>
+        <div class="cta-row">
+          <a class="cta" href="https://github.com/hamzaakram007/spoiler-shield-ext#install-unpacked">Install unpacked</a>
+          <a class="cta secondary" href="https://github.com/hamzaakram007/spoiler-shield-ext">View source</a>
+        </div>
+      </section>
+
+      <section class="preview" aria-label="Product preview">
+        <div class="feed-card">
+          <div class="thumb blurred"></div>
+          <div class="meta">
+            <p class="title blurred-text">████ final mission ending explained</p>
+            <p class="sub">YouTube · matched keyword</p>
+            <button type="button" class="reveal-demo" disabled>Reveal spoiler</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="points">
+        <h2>High-level MVP</h2>
+        <p>Configurable keywords, popup toggle, options page, three major feeds.</p>
+        <ul>
+          <li>Blurs matching titles + nearby thumbnails</li>
+          <li>Per-item reveal without disabling protection</li>
+          <li>Syncs keywords via <code>chrome.storage.sync</code></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built by Hamza Akram. Independent fan utility — not affiliated with any
+        game studio or platform. No publisher assets used.
+      </p>
+      <p class="disclosure">
+        Future affiliate links (gear / checklist tools) will be disclosed here.
+      </p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+.ss-blurred {
+  filter: blur(14px) saturate(0.7) !important;
+  user-select: none !important;
+  pointer-events: none !important;
+  transition: filter 0.2s ease;
+}
+
+.ss-blur-host {
+  position: relative !important;
+}
+
+.ss-reveal-btn {
+  position: absolute;
+  inset: 0;
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(0, 229, 200, 0.55);
+  border-radius: 999px;
+  width: max-content;
+  height: max-content;
+  place-self: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(6, 18, 28, 0.88);
+  color: #9ff5e6;
+  font: 600 12px/1.2 "Segoe UI", system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.ss-reveal-btn:hover {
+  background: rgba(0, 229, 200, 0.18);
+  color: #e8fffa;
+}
+
+.ss-revealed .ss-blurred {
+  filter: none !important;
+  user-select: auto !important;
+  pointer-events: auto !important;
+}
+
+.ss-revealed .ss-reveal-btn {
+  display: none !important;
+}

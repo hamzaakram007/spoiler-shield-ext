@@ -1,0 +1,138 @@
+:root {
+  --bg: #06121c;
+  --panel: #0b1d2c;
+  --line: rgba(120, 220, 210, 0.22);
+  --teal: #00e5c8;
+  --foam: #dffcf5;
+  --muted: #8fb4b0;
+  --danger-off: #6b8790;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 280px;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--foam);
+  background:
+    radial-gradient(120% 80% at 10% 0%, rgba(0, 229, 200, 0.16), transparent 55%),
+    radial-gradient(90% 70% at 100% 100%, rgba(18, 90, 140, 0.35), transparent 50%),
+    var(--bg);
+}
+
+.panel {
+  padding: 14px 14px 16px;
+}
+
+header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background:
+    linear-gradient(160deg, rgba(0, 229, 200, 0.35), rgba(12, 40, 60, 0.9)),
+    var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 0 0 1px rgba(0, 229, 200, 0.12);
+}
+
+h1 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
+.tag {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(11, 29, 44, 0.85);
+  cursor: pointer;
+}
+
+.toggle-row strong {
+  display: block;
+  font-size: 13px;
+}
+
+.toggle-row small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--danger-off);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.18s ease;
+  cursor: pointer;
+}
+
+input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ecfffb;
+  transition: transform 0.18s ease;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--teal);
+}
+
+input[type="checkbox"]:checked::after {
+  transform: translateX(18px);
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stats em {
+  font-style: normal;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+#open-options {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+#open-options:hover {
+  text-decoration: underline;
+}

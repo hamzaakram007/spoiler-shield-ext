@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spoiler Shield — Keywords</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <p class="eyebrow">Spoiler Shield</p>
+        <h1>Keyword list</h1>
+        <p class="lede">
+          Titles and nearby thumbnails matching these words get blurred on
+          YouTube, Reddit, and X. Click reveal when you are ready.
+        </p>
+      </header>
+
+      <section class="card">
+        <label class="field" for="new-keyword">
+          <span>Add keyword or phrase</span>
+          <div class="row">
+            <input
+              id="new-keyword"
+              type="text"
+              placeholder="e.g. final mission"
+              maxlength="80"
+            />
+            <button id="add-btn" type="button">Add</button>
+          </div>
+        </label>
+
+        <ul id="keyword-list" class="list" aria-live="polite"></ul>
+
+        <div class="footer-actions">
+          <button id="reset-btn" type="button" class="ghost">
+            Reset defaults
+          </button>
+          <p id="save-status" class="status" hidden>Saved</p>
+        </div>
+      </section>
+
+      <p class="note">
+        Independent fan utility by Hamza Akram. Not affiliated with any game
+        publisher. Use your own spoiler terms — stay clear of leaking or sharing
+        restricted material.
+      </p>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>

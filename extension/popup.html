@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spoiler Shield</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <header>
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>Spoiler Shield</h1>
+          <p class="tag">Blur spoilers on YouTube · Reddit · X</p>
+        </div>
+      </header>
+
+      <label class="toggle-row" for="enabled">
+        <span>
+          <strong id="status-label">Protection on</strong>
+          <small>Match keyword list across feed titles</small>
+        </span>
+        <input id="enabled" type="checkbox" role="switch" />
+      </label>
+
+      <div class="stats">
+        <span><em id="keyword-count">0</em> keywords</span>
+        <a href="options.html" id="open-options">Edit keywords</a>
+      </div>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
