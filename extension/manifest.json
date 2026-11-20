@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Spoiler Shield",
   "version": "0.2.0",
-  "description": "Blur spoiler titles and thumbnails on YouTube, Reddit, and X until you choose to reveal them.",
+  "description": "Spoiler Shield by NeonGulf — blur spoiler titles and thumbnails on YouTube, Reddit, and X until you choose to reveal them.",
   "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html",

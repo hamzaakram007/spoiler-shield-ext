@@ -1,10 +1,10 @@
-# Spoiler Shield
+# Spoiler Shield by NeonGulf
 
-Chrome extension (Manifest V3) that blurs spoiler titles and thumbnails matching a configurable keyword list on **YouTube**, **Reddit**, and **X**. Includes a popup on/off toggle, options page, and a marketing landing page under `/web`.
+Chrome extension that blurs spoiler titles and thumbnails matching a configurable keyword list on **YouTube**, **Reddit**, and **X**. Includes a popup on/off toggle, options page, and a marketing landing page under `/web`.
 
-Built by **Hamza Akram**. Independent fan utility — not affiliated with any game publisher.
+A **NeonGulf** product by Hamza Akram. Independent tool — not affiliated with YouTube, Reddit, X, or any game publisher.
 
-**Landing:** https://spoiler-shield-ext.vercel.app  
+**Landing:** https://shield.neongulf.com  
 **Repo:** https://github.com/hamzaakram007/spoiler-shield-ext
 
 ## Repo layout
@@ -45,7 +45,7 @@ Default keywords are generic story-spoiler phrases. Customize them for whatever 
 
 ## Landing page
 
-Live: https://spoiler-shield-ext.vercel.app (`#install` has the step-by-step guide)
+Live: https://shield.neongulf.com (`#install` has the step-by-step guide)
 
 Locally:
 
@@ -56,7 +56,7 @@ python3 -m http.server 8080 --directory web
 
 ## Scope
 
-Working UI + hardened blur flow + options UX + install guide + icons. Not Chrome Web Store–published yet (sideload first).
+Production-ready blur flow, options UX, install guide, and icons. Sideload via unpacked install today.
 
 ## License
 
