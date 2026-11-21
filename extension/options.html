@@ -12,10 +12,20 @@
         <p class="eyebrow">Spoiler Shield by NeonGulf</p>
         <h1>Settings</h1>
         <p class="lede">
-          Turn protection on, manage keywords, and keep spoilers blurred on
-          YouTube, Reddit, and X until you reveal them.
+          Turn protection on, manage your keyword list, and keep spoilers blurred
+          on YouTube, Reddit, and X until you reveal them.
         </p>
       </header>
+
+      <section id="welcome" class="card welcome" aria-labelledby="welcome-heading" hidden>
+        <h2 id="welcome-heading">Welcome — three quick steps</h2>
+        <ol class="welcome-steps">
+          <li>Keep protection <strong>On</strong>.</li>
+          <li>Add the spoilers you want blurred (phrases work best).</li>
+          <li>Open YouTube, Reddit, or X — matching posts blur until you tap Reveal.</li>
+        </ol>
+        <button id="dismiss-welcome" type="button">Got it</button>
+      </section>
 
       <section class="card" aria-labelledby="protection-heading">
         <div class="card-head">
@@ -40,7 +50,8 @@
           <div>
             <h2 id="keywords-heading">Keywords</h2>
             <p class="hint">
-              <span id="keyword-count">0</span> active · matching titles and nearby thumbnails blur
+              <span id="keyword-count">0</span> active · matching titles and nearby
+              thumbnails blur
             </p>
           </div>
         </div>
@@ -86,12 +97,31 @@
         <div class="footer-actions">
           <div class="action-group">
             <button id="sort-btn" type="button" class="ghost">Sort A–Z</button>
+            <button id="export-btn" type="button" class="ghost">Export</button>
+            <button id="import-btn" type="button" class="ghost">Import</button>
+            <input id="import-file" type="file" accept="application/json,.json,text/plain,.txt,.csv" hidden />
             <button id="reset-btn" type="button" class="ghost danger">
               Reset defaults
             </button>
           </div>
           <p id="save-status" class="status" role="status" hidden>Saved</p>
         </div>
+      </section>
+
+      <section class="card privacy" aria-labelledby="privacy-heading">
+        <h2 id="privacy-heading">Privacy</h2>
+        <ul class="privacy-list">
+          <li>Your keyword list stays in your browser (Chrome sync if you use it).</li>
+          <li>NeonGulf never receives your keywords, browsing history, or feed content.</li>
+          <li>Permissions are limited to storage plus YouTube, Reddit, and X pages.</li>
+          <li>No accounts, ads, or trackers in this extension.</li>
+        </ul>
+        <p class="hint">
+          Full note:
+          <a href="https://shield.neongulf.com/#privacy" target="_blank" rel="noopener"
+            >shield.neongulf.com/#privacy</a
+          >
+        </p>
       </section>
 
       <p class="note">

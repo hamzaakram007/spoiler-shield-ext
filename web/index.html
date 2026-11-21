@@ -3,11 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Spoiler Shield by NeonGulf — blur spoilers before you see them</title>
+    <title>Spoiler Shield by NeonGulf — blur spoilers on YouTube, Reddit &amp; X</title>
     <meta
       name="description"
-      content="Spoiler Shield by NeonGulf soft-blurs spoiler titles and thumbnails on YouTube, Reddit, and X until you choose to reveal them."
+      content="Free Chrome extension that blurs spoiler titles and thumbnails on YouTube, Reddit, and X. Your keyword list stays in your browser. Install in under a minute."
     />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://shield.neongulf.com/" />
+    <meta name="theme-color" content="#031018" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NeonGulf" />
+    <meta property="og:url" content="https://shield.neongulf.com/" />
+    <meta
+      property="og:title"
+      content="Spoiler Shield — blur spoilers before you see them"
+    />
+    <meta
+      property="og:description"
+      content="Blur matching titles and thumbnails on YouTube, Reddit, and X until you tap Reveal. Keywords stay in your browser."
+    />
+    <meta property="og:image" content="https://shield.neongulf.com/favicon-128.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Spoiler Shield — blur spoilers before you see them"
+    />
+    <meta
+      name="twitter:description"
+      content="Free Chrome extension. Your keyword list. YouTube, Reddit, and X."
+    />
+    <meta name="twitter:image" content="https://shield.neongulf.com/favicon-128.png" />
     <link rel="icon" type="image/png" href="favicon-32.png" />
     <link rel="apple-touch-icon" href="favicon-128.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,15 +42,36 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Spoiler Shield",
+        "applicationCategory": "BrowserApplication",
+        "operatingSystem": "Chrome",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Chrome extension that blurs spoiler titles and thumbnails on YouTube, Reddit, and X until you choose to reveal them.",
+        "url": "https://shield.neongulf.com/",
+        "author": {
+          "@type": "Organization",
+          "name": "NeonGulf",
+          "url": "https://neongulf.com"
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="atmosphere" aria-hidden="true"></div>
     <header class="top">
       <span class="logo">Spoiler Shield</span>
-      <nav class="top-nav">
+      <nav class="top-nav" aria-label="Primary">
         <a class="ghost-link" href="#install">Install</a>
-        <a class="ghost-link" href="https://neongulf.com">NeonGulf</a>
-        <a class="ghost-link" href="https://github.com/hamzaakram007/spoiler-shield-ext">GitHub</a>
+        <a class="ghost-link" href="#how">How it works</a>
+        <a class="ghost-link" href="#privacy">Privacy</a>
       </nav>
     </header>
 
@@ -35,13 +81,15 @@
         <p class="byline">by NeonGulf</p>
         <h1>Blur the feed. Finish the story first.</h1>
         <p class="support">
-          Soft-blurs titles and thumbnails that match your keyword list on
-          YouTube, Reddit, and X — until you tap Reveal.
+          Soft-blurs titles and thumbnails that match <em>your</em> keyword list
+          on YouTube, Reddit, and X — until you tap Reveal.
         </p>
         <div class="cta-row">
-          <a class="cta" href="#install">Install guide</a>
-          <a class="cta secondary" href="https://github.com/hamzaakram007/spoiler-shield-ext">View source</a>
+          <a class="cta" href="#install">Install free</a>
         </div>
+        <p class="trust-line">
+          Free · open source · keywords stay in your browser
+        </p>
       </section>
 
       <section class="preview" aria-label="Product preview">
@@ -55,19 +103,38 @@
         </div>
       </section>
 
+      <section class="how" id="how" aria-labelledby="how-heading">
+        <h2 id="how-heading">How it works</h2>
+        <p class="section-lede">
+          One job: hide spoilers until you choose to look.
+        </p>
+        <ol class="how-grid">
+          <li>
+            <strong>You add keywords</strong>
+            <p>Phrases you care about — endings, twists, character names.</p>
+          </li>
+          <li>
+            <strong>Feeds get a soft blur</strong>
+            <p>Matching titles and nearby thumbnails blur on YouTube, Reddit, and X.</p>
+          </li>
+          <li>
+            <strong>You tap Reveal</strong>
+            <p>When you are ready, one click clears that post. Nothing leaves your browser.</p>
+          </li>
+        </ol>
+      </section>
+
       <section class="install" id="install" aria-labelledby="install-heading">
         <h2 id="install-heading">Install in Chrome</h2>
         <p class="install-lede">
           Load the <code>extension/</code> folder as an unpacked extension in
-          under a minute. No store listing required.
+          under a minute. No account required.
         </p>
 
         <ol class="steps">
           <li>
             <strong>Get the code</strong>
-            <p>
-              Download the latest ZIP, or clone the repo.
-            </p>
+            <p>Download the latest ZIP, or clone the repo.</p>
             <div class="step-actions">
               <a
                 class="cta compact"
@@ -77,7 +144,7 @@
               <a
                 class="cta secondary compact"
                 href="https://github.com/hamzaakram007/spoiler-shield-ext"
-                >Open repo</a
+                >View source</a
               >
             </div>
             <pre><code>git clone https://github.com/hamzaakram007/spoiler-shield-ext.git
@@ -99,10 +166,10 @@ cd spoiler-shield-ext</code></pre>
             </p>
           </li>
           <li>
-            <strong>Pin and configure</strong>
+            <strong>Pin and add keywords</strong>
             <p>
-              Pin Spoiler Shield from the puzzle menu. Use the popup toggle, then
-              open Settings to add the spoilers you want blurred.
+              Pin Spoiler Shield from the puzzle menu. Use the popup toggle and
+              quick-add, or open Settings to manage your full list.
             </p>
           </li>
         </ol>
@@ -114,15 +181,39 @@ cd spoiler-shield-ext</code></pre>
         </aside>
       </section>
 
-      <section class="points">
-        <h2>What it does</h2>
-        <p>
-          Your keywords, your feeds — blur until you decide to look.
+      <section class="share" id="share" aria-labelledby="share-heading">
+        <h2 id="share-heading">Share with a friend</h2>
+        <p class="section-lede">
+          Playing the same story? Send them the install page so they stay spoiler-safe too.
         </p>
+        <div class="share-row">
+          <button type="button" class="cta compact" id="copy-link">Copy link</button>
+          <a
+            class="cta secondary compact"
+            id="share-x"
+            href="https://twitter.com/intent/tweet?text=Spoiler%20Shield%20blurs%20spoilers%20on%20YouTube%2C%20Reddit%2C%20and%20X%20until%20you%20reveal%20them.%20Keywords%20stay%20in%20your%20browser.&url=https%3A%2F%2Fshield.neongulf.com%2F"
+            target="_blank"
+            rel="noopener"
+            >Share on X</a
+          >
+          <a
+            class="cta secondary compact"
+            href="https://www.reddit.com/submit?url=https%3A%2F%2Fshield.neongulf.com%2F&title=Spoiler%20Shield%20%E2%80%94%20blur%20spoilers%20before%20you%20see%20them"
+            target="_blank"
+            rel="noopener"
+            >Share on Reddit</a
+          >
+        </div>
+        <p id="copy-status" class="copy-status" role="status" hidden>Link copied</p>
+      </section>
+
+      <section class="privacy" id="privacy" aria-labelledby="privacy-heading">
+        <h2 id="privacy-heading">Privacy, in plain words</h2>
         <ul>
-          <li>Blurs matching titles and nearby thumbnails with a reveal button</li>
-          <li>Re-scans SPA feeds as you scroll or navigate</li>
-          <li>Syncs keywords across Chrome via <code>chrome.storage.sync</code></li>
+          <li>Your keyword list stays in your browser (Chrome sync if you use it).</li>
+          <li>NeonGulf never receives your keywords, history, or feed content.</li>
+          <li>The extension only runs on YouTube, Reddit, and X — plus storage for your settings.</li>
+          <li>No accounts, ads, or trackers.</li>
         </ul>
       </section>
     </main>
@@ -132,6 +223,32 @@ cd spoiler-shield-ext</code></pre>
         Spoiler Shield is a NeonGulf product by Hamza Akram. Independent tool —
         not affiliated with YouTube, Reddit, X, or any game publisher.
       </p>
+      <p class="footer-links">
+        <a href="https://neongulf.com">NeonGulf</a>
+        ·
+        <a href="https://github.com/hamzaakram007/spoiler-shield-ext">GitHub</a>
+      </p>
     </footer>
+    <script>
+      (function () {
+        var btn = document.getElementById("copy-link");
+        var status = document.getElementById("copy-status");
+        if (!btn) return;
+        btn.addEventListener("click", async function () {
+          var url = "https://shield.neongulf.com/";
+          try {
+            await navigator.clipboard.writeText(url);
+            status.hidden = false;
+            status.textContent = "Link copied";
+          } catch (e) {
+            status.hidden = false;
+            status.textContent = url;
+          }
+          setTimeout(function () {
+            status.hidden = true;
+          }, 2000);
+        });
+      })();
+    </script>
   </body>
 </html>

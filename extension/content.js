@@ -1,4 +1,10 @@
 (() => {
+  "use strict";
+
+  // Never run inside nested frames — matches already set all_frames:false,
+  // but guard anyway so a future mismatch cannot double-inject.
+  if (window !== window.top) return;
+
   const STATE = {
     enabled: true,
     keywords: [],
@@ -7,9 +13,11 @@
 
   const ATTR = "data-ss-shield";
   const REVEALED = "data-ss-revealed";
+  const MAX_KEYWORDS = 200;
   let observer = null;
   let scanTimer = null;
   let lastUrl = location.href;
+  let scanning = false;
 
   function escapeRegExp(value) {
     return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -17,12 +25,16 @@
 
   function rebuildPatterns(keywords) {
     STATE.keywords = (keywords || [])
-      .map((k) => String(k).trim().replace(/\s+/g, " "))
-      .filter(Boolean);
+      .map((k) => String(k).trim().replace(/\s+/g, " ").slice(0, 80))
+      .filter(Boolean)
+      .slice(0, MAX_KEYWORDS);
     STATE.patterns = STATE.keywords.map((k) => {
       const escaped = escapeRegExp(k);
       // Prefer whole-phrase / word-ish boundaries so short words don't overfire.
-      return new RegExp(`(?:^|[^\\p{L}\\p{N}_])${escaped}(?:$|[^\\p{L}\\p{N}_])`, "iu");
+      return new RegExp(
+        `(?:^|[^\\p{L}\\p{N}_])${escaped}(?:$|[^\\p{L}\\p{N}_])`,
+        "iu"
+      );
     });
   }
 
@@ -30,21 +42,21 @@
     if (!text || !STATE.patterns.length) return false;
     const normalized = text.replace(/\s+/g, " ").trim();
     if (!normalized) return false;
-    // Pad so boundary regex works at string edges.
     const padded = ` ${normalized} `;
     return STATE.patterns.some((re) => re.test(padded));
   }
 
   function nodeText(node) {
     if (!node || node.nodeType !== 1) return "";
+    // Prefer cheap attribute reads first; fall back to textContent (not innerText)
+    // so we avoid layout thrash while scanning large feeds.
     const parts = [
-      node.innerText,
-      node.textContent,
       node.getAttribute?.("aria-label"),
       node.getAttribute?.("title"),
-      node.getAttribute?.("alt")
+      node.getAttribute?.("alt"),
+      node.textContent
     ];
-    return parts.filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+    return parts.filter(Boolean).join(" ").replace(/\s+/g, " ").trim().slice(0, 2000);
   }
 
   function isEditable(el) {
@@ -58,12 +70,21 @@
     );
   }
 
+  function isOurUi(node) {
+    return Boolean(
+      node.closest?.(".ss-reveal-btn") ||
+        node.closest?.(".ss-blur-veil") ||
+        node.classList?.contains("ss-reveal-btn") ||
+        node.classList?.contains("ss-blur-veil")
+    );
+  }
+
   function findBlurTarget(node) {
     if (!node || node.nodeType !== 1) return null;
     if (
       node.closest?.(`[${ATTR}]`) ||
       node.closest?.(`[${REVEALED}]`) ||
-      node.closest?.(".ss-reveal-btn")
+      isOurUi(node)
     ) {
       return null;
     }
@@ -92,7 +113,7 @@
         ) ||
         node.closest("#dismissible") ||
         node.closest("ytd-thumbnail")?.parentElement ||
-        node
+        null
       );
     }
 
@@ -100,18 +121,19 @@
       return (
         node.closest(
           "article, shreddit-post, faceplate-tracker, .Post, [data-testid='post-container'], [data-scroller-item]"
-        ) || node
+        ) || null
       );
     }
 
     if (host.includes("x.com") || host.includes("twitter.com")) {
       return (
-        node.closest('article[data-testid="tweet"], article[role="article"], article') ||
-        node
+        node.closest(
+          'article[data-testid="tweet"], article[role="article"], article'
+        ) || null
       );
     }
 
-    return node;
+    return null;
   }
 
   function collectCandidateNodes(root) {
@@ -139,7 +161,9 @@
     const set = new Set();
     for (const sel of selectors) {
       try {
-        root.querySelectorAll?.(sel)?.forEach((el) => set.add(el));
+        root.querySelectorAll?.(sel)?.forEach((el) => {
+          if (!isEditable(el) && !isOurUi(el)) set.add(el);
+        });
       } catch {
         /* ignore invalid selector in odd roots */
       }
@@ -165,7 +189,9 @@
         "faceplate-img"
       ].join(", ")
     );
-    media.forEach((m) => blurables.add(m));
+    media.forEach((m) => {
+      if (!isOurUi(m)) blurables.add(m);
+    });
 
     const titleLike = target.querySelectorAll(
       [
@@ -182,7 +208,9 @@
         "a[aria-label]"
       ].join(", ")
     );
-    titleLike.forEach((t) => blurables.add(t));
+    titleLike.forEach((t) => {
+      if (!isOurUi(t) && !isEditable(t)) blurables.add(t);
+    });
 
     if (!blurables.size) blurables.add(target);
     return [...blurables];
@@ -239,7 +267,10 @@
 
   function shieldElement(target, matchedText) {
     if (!target) return;
-    if (target.getAttribute(REVEALED) === "1" || target.classList.contains("ss-revealed")) {
+    if (
+      target.getAttribute(REVEALED) === "1" ||
+      target.classList.contains("ss-revealed")
+    ) {
       return;
     }
 
@@ -252,24 +283,33 @@
   }
 
   function repairShields(root = document) {
-    root.querySelectorAll?.(`[${ATTR}="1"]:not([${REVEALED}])`)?.forEach((target) => {
-      if (target.classList.contains("ss-revealed")) return;
-      target.classList.add("ss-blur-host");
-      collectBlurables(target).forEach((el) => el.classList.add("ss-blurred"));
-      ensureVeil(target);
-      ensureRevealButton(target, "");
-    });
+    root
+      .querySelectorAll?.(`[${ATTR}="1"]:not([${REVEALED}])`)
+      ?.forEach((target) => {
+        if (target.classList.contains("ss-revealed")) return;
+        target.classList.add("ss-blur-host");
+        collectBlurables(target).forEach((el) => el.classList.add("ss-blurred"));
+        ensureVeil(target);
+        ensureRevealButton(target, "");
+      });
   }
 
   function scan(root = document) {
-    if (!STATE.enabled || !STATE.patterns.length) return;
-    repairShields(root);
-    const nodes = collectCandidateNodes(root);
-    for (const node of nodes) {
-      const text = nodeText(node);
-      if (!textMatches(text)) continue;
-      const target = findBlurTarget(node);
-      if (target) shieldElement(target, text);
+    if (!STATE.enabled || !STATE.patterns.length || scanning) return;
+    scanning = true;
+    try {
+      repairShields(root);
+      const nodes = collectCandidateNodes(root);
+      for (const node of nodes) {
+        const text = nodeText(node);
+        if (!textMatches(text)) continue;
+        const target = findBlurTarget(node);
+        if (target) shieldElement(target, text);
+      }
+    } catch {
+      /* never break the host page */
+    } finally {
+      scanning = false;
     }
   }
 
@@ -298,7 +338,9 @@
       el.querySelectorAll(".ss-blurred").forEach((b) =>
         b.classList.remove("ss-blurred")
       );
-      el.querySelectorAll(".ss-reveal-btn, .ss-blur-veil").forEach((b) => b.remove());
+      el.querySelectorAll(".ss-reveal-btn, .ss-blur-veil").forEach((b) =>
+        b.remove()
+      );
     });
   }
 
@@ -307,7 +349,23 @@
     observer = new MutationObserver((mutations) => {
       let needsScan = false;
       for (const mutation of mutations) {
-        if (mutation.type === "childList" && (mutation.addedNodes.length || mutation.removedNodes.length)) {
+        if (
+          mutation.type === "childList" &&
+          (mutation.addedNodes.length || mutation.removedNodes.length)
+        ) {
+          // Ignore mutations we caused (reveal button / veil).
+          const nodes = [
+            ...mutation.addedNodes,
+            ...mutation.removedNodes
+          ];
+          const onlyOurs = nodes.every(
+            (n) =>
+              n.nodeType === 1 &&
+              (n.classList?.contains("ss-reveal-btn") ||
+                n.classList?.contains("ss-blur-veil") ||
+                n.classList?.contains("ss-blurred"))
+          );
+          if (onlyOurs && nodes.length) continue;
           needsScan = true;
           break;
         }
@@ -350,16 +408,19 @@
     const wrapHistory = (method) => {
       const original = history[method];
       if (typeof original !== "function") return;
-      history[method] = function wrappedHistory(...args) {
+      if (original.__ssWrapped) return;
+      function wrappedHistory(...args) {
         const result = original.apply(this, args);
         queueMicrotask(checkUrl);
         return result;
-      };
+      }
+      wrappedHistory.__ssWrapped = true;
+      history[method] = wrappedHistory;
     };
     wrapHistory("pushState");
     wrapHistory("replaceState");
 
-    setInterval(checkUrl, 1000);
+    setInterval(checkUrl, 1500);
   }
 
   async function loadSettings() {
@@ -389,7 +450,6 @@
 
   watchSpaNavigation();
   applySettings();
-  // Catch late-hydrated feed cards after idle inject.
   scheduleScan(250);
   scheduleScan(1000);
 })();

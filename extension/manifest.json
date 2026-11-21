@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
   "name": "Spoiler Shield",
-  "version": "0.2.0",
-  "description": "Spoiler Shield by NeonGulf — blur spoiler titles and thumbnails on YouTube, Reddit, and X until you choose to reveal them.",
+  "short_name": "Spoiler Shield",
+  "version": "0.3.0",
+  "description": "Blur spoiler titles and thumbnails on YouTube, Reddit, and X until you choose to reveal them. Your keyword list stays in your browser.",
+  "homepage_url": "https://shield.neongulf.com",
   "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html",
@@ -38,7 +40,8 @@
       ],
       "js": ["content.js"],
       "css": ["content.css"],
-      "run_at": "document_idle"
+      "run_at": "document_idle",
+      "all_frames": false
     }
   ]
 }
