@@ -9,11 +9,16 @@ const DEFAULT_KEYWORDS = [
   "true ending"
 ];
 
+const MAX_KEYWORDS = 200;
+
 const listEl = document.getElementById("keyword-list");
 const inputEl = document.getElementById("new-keyword");
 const addBtn = document.getElementById("add-btn");
 const resetBtn = document.getElementById("reset-btn");
 const sortBtn = document.getElementById("sort-btn");
+const exportBtn = document.getElementById("export-btn");
+const importBtn = document.getElementById("import-btn");
+const importFile = document.getElementById("import-file");
 const saveStatus = document.getElementById("save-status");
 const enabledEl = document.getElementById("enabled");
 const enabledLabel = document.getElementById("enabled-label");
@@ -21,12 +26,32 @@ const keywordCount = document.getElementById("keyword-count");
 const filterEl = document.getElementById("filter-keywords");
 const bulkEl = document.getElementById("bulk-keywords");
 const bulkBtn = document.getElementById("bulk-btn");
+const welcomeEl = document.getElementById("welcome");
+const dismissWelcome = document.getElementById("dismiss-welcome");
 
 let keywords = [];
 let statusTimer = null;
 
 function normalize(value) {
-  return String(value || "").trim().replace(/\s+/g, " ");
+  return String(value || "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .slice(0, 80);
+}
+
+function dedupe(list) {
+  const seen = new Set();
+  const out = [];
+  for (const raw of list) {
+    const value = normalize(raw);
+    if (!value) continue;
+    const key = value.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(value);
+    if (out.length >= MAX_KEYWORDS) break;
+  }
+  return out;
 }
 
 function showStatus(message, isError = false) {
@@ -101,6 +126,10 @@ async function addKeyword() {
     inputEl.focus();
     return;
   }
+  if (keywords.length >= MAX_KEYWORDS) {
+    showStatus(`Limit is ${MAX_KEYWORDS} keywords`, true);
+    return;
+  }
   const exists = keywords.some((k) => k.toLowerCase() === value.toLowerCase());
   if (exists) {
     showStatus("Already in the list", true);
@@ -125,23 +154,55 @@ async function addBulk() {
     return;
   }
 
-  const existing = new Set(keywords.map((k) => k.toLowerCase()));
-  const next = [];
-  for (const part of parts) {
-    const key = part.toLowerCase();
-    if (existing.has(key)) continue;
-    existing.add(key);
-    next.push(part);
-  }
-
-  if (!next.length) {
-    showStatus("All were duplicates", true);
+  const before = keywords.length;
+  keywords = dedupe([...keywords, ...parts]);
+  const added = keywords.length - before;
+  if (!added) {
+    showStatus("All were duplicates or over the limit", true);
     return;
   }
 
-  keywords = [...keywords, ...next];
   bulkEl.value = "";
-  await persist(`Added ${next.length}`);
+  await persist(`Added ${added}`);
+}
+
+function downloadExport() {
+  const payload = {
+    name: "Spoiler Shield keywords",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    keywords
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {
+    type: "application/json"
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "spoiler-shield-keywords.json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showStatus("Exported");
+}
+
+async function importFromText(text) {
+  let incoming = [];
+  try {
+    const parsed = JSON.parse(text);
+    if (Array.isArray(parsed)) incoming = parsed;
+    else if (Array.isArray(parsed?.keywords)) incoming = parsed.keywords;
+  } catch {
+    incoming = text.split(/[\n,;]+/);
+  }
+
+  const before = keywords.length;
+  keywords = dedupe([...keywords, ...incoming]);
+  const added = keywords.length - before;
+  if (!added) {
+    showStatus("Nothing new to import", true);
+    return;
+  }
+  await persist(`Imported ${added}`);
 }
 
 addBtn.addEventListener("click", addKeyword);
@@ -162,6 +223,20 @@ sortBtn.addEventListener("click", async () => {
   await persist("Sorted");
 });
 
+exportBtn.addEventListener("click", downloadExport);
+importBtn.addEventListener("click", () => importFile.click());
+importFile.addEventListener("change", async () => {
+  const file = importFile.files?.[0];
+  importFile.value = "";
+  if (!file) return;
+  try {
+    const text = await file.text();
+    await importFromText(text);
+  } catch {
+    showStatus("Could not read that file", true);
+  }
+});
+
 resetBtn.addEventListener("click", async () => {
   const ok = window.confirm(
     "Replace your keyword list with the default spoiler phrases?"
@@ -178,15 +253,28 @@ enabledEl.addEventListener("change", async () => {
   showStatus(enabledEl.checked ? "Protection on" : "Protection off");
 });
 
+dismissWelcome.addEventListener("click", async () => {
+  welcomeEl.hidden = true;
+  await chrome.storage.sync.set({ onboarded: true });
+});
+
 (async () => {
-  const data = await chrome.storage.sync.get(["keywords", "enabled"]);
+  const data = await chrome.storage.sync.get([
+    "keywords",
+    "enabled",
+    "onboarded"
+  ]);
   keywords =
     Array.isArray(data.keywords) && data.keywords.length
-      ? data.keywords.map(normalize).filter(Boolean)
+      ? dedupe(data.keywords)
       : [...DEFAULT_KEYWORDS];
   if (!Array.isArray(data.keywords) || !data.keywords.length) {
     await chrome.storage.sync.set({ keywords });
   }
   renderEnabled(data.enabled !== false);
   render();
+
+  if (data.onboarded !== true) {
+    welcomeEl.hidden = false;
+  }
 })();
